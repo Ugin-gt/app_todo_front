@@ -1,0 +1,29 @@
+import { put } from 'redux-saga/effects';
+import * as API from '../api';
+import * as UserActionCreators from '../actions/userCreators';
+
+export function * createUserSaga (action) {
+  try {
+    const {
+      data: {
+        data: [user],
+      },
+    } = yield API.createUser(action.values); //data -> data
+
+    yield put(UserActionCreators.createUserSuccess(user));
+  } catch (error) {
+    yield put(UserActionCreators.createUserError(error));
+  }
+}
+
+export function * getUsersSaga (action) {
+  try {
+    const {
+      data: { data: users },
+    } = yield API.getUsers(action.payload);
+
+    yield put(UserActionCreators.getUserSuccess({ users }));
+  } catch (error) {
+    yield put(UserActionCreators.getUserError({ error }));
+  }
+}
