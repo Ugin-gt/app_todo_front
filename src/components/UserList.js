@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import * as UserActionCreators from '../actions/userCreators';
 
 const UserList = props => {
-  const { users, isFetching, error, getUsersRequst } = props;
+  const { users, isFetching, error, getUsersRequest } = props;
 
-  const loadMore = () => getUsersRequst({ offset: users.length });
+  const loadMore = () => getUsersRequest({ offset: users.length });
 
   useEffect(() => {
     loadMore();
@@ -28,8 +28,8 @@ const UserList = props => {
 
 const mapStateToProps = ({ user }) => user;
 const mapDispatchToProps = dispatch => ({
-  getUsersRequst: ({ limit, offset } = {}) =>
-    dispatch(UserActionCreators.getUsersRequst({ offset, limit })),
+  getUsersRequest: ({ limit, offset } = {}) =>
+    dispatch(UserActionCreators.getUserRequest({ offset, limit })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

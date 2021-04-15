@@ -28,7 +28,7 @@ const TodoForm = props => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  createTaskAction: values => dispatch(createTodo(values)),
+  createTodoAction: values => dispatch(createTodo(values)),
 });
 
 export default connect(null, mapDispatchToProps)(TodoForm);

@@ -33,7 +33,7 @@ const UserForm = props => {
 
 const mapDispatchToProps = dispatch => ({
   createUserAction: values =>
-    dispatch(UserActionCreators.createUserAction(values)),
+    dispatch(UserActionCreators.createUserRequest(values)),
 });
 
 export default connect(null, mapDispatchToProps)(UserForm);
