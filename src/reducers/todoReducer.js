@@ -1,19 +1,40 @@
 import ACTION_TYPES from '../actions/actionTypes';
 
 const initialState = {
-  todos: [
-    {
-      id: 0,
-      body: 'test todo',
-      isDone: false,
-    },
-  ],
+  todos: [],
+  isFetching: false,
+  error: null,
 };
-
-let serial = 1;
-
+let serial =1;
 function todoReducer (state = initialState, action) {
   switch (action.type) {
+    case ACTION_TYPES.GET_TODO_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+      };
+    }
+    case ACTION_TYPES.GET_TODO_SUCCESS: {
+      const {
+        payload: { todos },
+      } = action;
+      return {
+        ...state,
+        isFetching: false,
+        todos: [...state.todos, ...todos],
+      };
+    }
+    case ACTION_TYPES.GET_TODO_ERROR: {
+      const {
+        payload: { error },
+      } = action;
+      return {
+        ...state,
+        isFetching: false,
+        error,
+      };
+    }
+
     case ACTION_TYPES.CREATE_TODO: {
       const { todos } = state;
       const { values: todo } = action;

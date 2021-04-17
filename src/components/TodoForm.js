@@ -1,5 +1,5 @@
 import { Formik, Form, Field } from 'formik';
-import { createTodo } from '../actions/todoCreators';
+import { createTodoRequest } from '../actions/todoCreators';
 import { connect } from 'react-redux';
 
 const TodoForm = props => {
@@ -28,7 +28,7 @@ const TodoForm = props => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  createTodoAction: values => dispatch(createTodo(values)),
+  createTodoAction: values => dispatch(createTodoRequest(values)),
 });
 
 export default connect(null, mapDispatchToProps)(TodoForm);

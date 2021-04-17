@@ -1,12 +1,15 @@
 import axios from 'axios';
+import { BASE_URL } from '../config';
 import queryString from 'query-string';
 
-
 const httpClient = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: `${BASE_URL}/api`,
 });
 
 export const createTodo = () => {};
+
+export const getTodos = ({ userId = 1 }) =>
+  httpClient.get(`/users/${userId}/todos`);
 
 export const createUser = data => {
   const responsePromise = httpClient.post('/users', data);

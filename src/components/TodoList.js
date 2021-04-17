@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import * as TodoCreators from '../actions/todoCreators';
 
 const TodoList = props => {
-  const { todos, updateAction, deleteAction } = props;
+  const { todos,isFetching, error, getTodoAction, updateTodoAction, deleteTodoAction } = props;
 
   return (
     <section>
@@ -17,7 +17,7 @@ const TodoList = props => {
                 type='checkbox'
                 checked={todo.isDone}
                 onChange={({ target: { checked } }) =>
-                  updateAction({
+                updateTodoAction({
                     id,
                     values: {
                       isDone: checked,
@@ -26,7 +26,7 @@ const TodoList = props => {
                 }
               />
             </div>
-            <button onClick={() => deleteAction(id)}>Delete ToDo</button>
+            <button onClick={() => deleteTodoAction(id)}>Delete ToDo</button>
           </li>
         ))}
       </ul>
@@ -36,8 +36,9 @@ const TodoList = props => {
 
 const mapStateToProps = ({ todo: { todos } }) => ({ todos });
 const mapDispatchToProps = dispatch => ({
-  deleteAction: id => dispatch(TodoCreators.deleteTodo(id)),
-  updateAction: ({ id, values }) =>
+  getTodoAction: () => dispatch(TodoCreators.getTodoRequest()),
+  deleteTodoAction: id => dispatch(TodoCreators.deleteTodo(id)),
+  updateTodoAction: ({ id, values }) =>
     dispatch(TodoCreators.updateTodo({ id, values })),
 });
 

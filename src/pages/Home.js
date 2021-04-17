@@ -8,8 +8,8 @@ const Home = props => {
   return (
     <div>
       <UserForm />
-      <TodoForm />
       <UserList />
+      <TodoForm />
       <TodoList />
     </div>
   );
