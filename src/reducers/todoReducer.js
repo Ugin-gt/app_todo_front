@@ -5,7 +5,7 @@ const initialState = {
   isFetching: false,
   error: null,
 };
-let serial =1;
+
 function todoReducer (state = initialState, action) {
   switch (action.type) {
     case ACTION_TYPES.GET_TODO_REQUEST: {
@@ -15,13 +15,15 @@ function todoReducer (state = initialState, action) {
       };
     }
     case ACTION_TYPES.GET_TODO_SUCCESS: {
+      const { todos } = state;
       const {
-        payload: { todos },
+        payload: { todos: newTodos },
       } = action;
       return {
         ...state,
         isFetching: false,
-        todos: [...state.todos, ...todos],
+        error: null,
+        todos: [...todos, ...newTodos],
       };
     }
     case ACTION_TYPES.GET_TODO_ERROR: {
@@ -35,41 +37,63 @@ function todoReducer (state = initialState, action) {
       };
     }
 
-    case ACTION_TYPES.CREATE_TODO: {
-      const { todos } = state;
-      const { values: todo } = action;
-
-      const newTodos = [...todos, { ...todo, id: serial++ }];
-
+    case ACTION_TYPES.CREATE_TODO_REQUEST: {
       return {
         ...state,
-        todos: newTodos,
+        isFetching: true,
       };
     }
-    case ACTION_TYPES.DELETE_TODO: {
-      const { id } = action;
+    case ACTION_TYPES.CREATE_TODO_SUCCESS: {
       const { todos } = state;
+      const {
+        payload: { todos: newTodos },
+      } = action;
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        todos: [...todos, ...newTodos],
+      };
+    }
+    case ACTION_TYPES.CREATE_TODO_ERROR: {
+      const {
+        payload: { error },
+      } = action;
+      return {
+        ...state,
+        isFetching: false,
+        error,
+      };
+    }
+    case ACTION_TYPES.DELETE_TODO_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+      };
+    }
+    case ACTION_TYPES.DELETE_TODO_SUCCESS: {
+      const { todos } = state;
+      const {
+        payload: { id },
+      } = action;
 
       return {
         ...state,
+        isFetching: false,
         todos: todos.filter(todo => todo.id !== id),
       };
     }
-    case ACTION_TYPES.UPDATE_TODO: {
-      const { id, values } = action;
-      const { todos } = state;
-
-      const newTodos = [...todos];
-      const todoIndex = newTodos.findIndex(todo => todo.id === id);
-      const todo = newTodos[todoIndex];
-
-      newTodos[todoIndex] = { ...todo, ...values };
-
+    case ACTION_TYPES.DELETE_TODO_ERROR: {
+      const {
+        payload: { error },
+      } = action;
       return {
         ...state,
-        tasks: newTodos,
+        isFetching: false,
+        error,
       };
     }
+    
     default: {
       return state;
     }

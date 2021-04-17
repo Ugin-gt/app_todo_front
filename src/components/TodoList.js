@@ -1,45 +1,36 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import * as TodoCreators from '../actions/todoCreators';
+import { getTodoRequest } from '../actions/todoCreators';
 
 const TodoList = props => {
-  const { todos,isFetching, error, getTodoAction, updateTodoAction, deleteTodoAction } = props;
+  const { todos, isFetching, error, getTodos } = props;
+
+  const getMore = () => getTodos({ offset: todos.length });
+
+  useEffect(() => {
+    getMore();
+  }, []);
 
   return (
     <section>
       <h1>ToDo LIST</h1>
-      <ul>
-        {todos.map(({ id, ...todo }) => (
-          <li key={id}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <h1> TodoListID: {id}</h1>
-              <div>{todo.body}</div>
-              <input
-                type='checkbox'
-                checked={todo.isDone}
-                onChange={({ target: { checked } }) =>
-                updateTodoAction({
-                    id,
-                    values: {
-                      isDone: checked,
-                    },
-                  })
-                }
-              />
-            </div>
-            <button onClick={() => deleteTodoAction(id)}>Delete ToDo</button>
-          </li>
-        ))}
-      </ul>
+      {isFetching && 'LOADING...'}
+      {error && JSON.stringify(error)}
+      <div>
+        <ul>
+          {todos.map(({ id, ...todo }) => (
+            <li key={id}>{JSON.stringify(todo, null, 8)}</li>
+          ))}
+        </ul>
+        <button onClick={getMore}>Get more Todos!</button>
+      </div>
     </section>
   );
 };
 
 const mapStateToProps = ({ todo: { todos } }) => ({ todos });
 const mapDispatchToProps = dispatch => ({
-  getTodoAction: () => dispatch(TodoCreators.getTodoRequest()),
-  deleteTodoAction: id => dispatch(TodoCreators.deleteTodo(id)),
-  updateTodoAction: ({ id, values }) =>
-    dispatch(TodoCreators.updateTodo({ id, values })),
+  getTodos: ({ page, limit } = {}) => dispatch(getTodoRequest({ page, limit })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

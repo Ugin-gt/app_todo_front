@@ -4,11 +4,10 @@ import * as TodoActionCreators from '../actions/todoCreators';
 
 export function * createTodoSaga (action) {
   try {
+    const { payload } = action;
     const {
-      data: {
-        data: [todo],
-      },
-    } = yield API.createTodo(action.values); //data -> data
+      data: { data: todo },
+    } = yield API.createTodo({ ...payload.todo }); //data -> data
 
     yield put(TodoActionCreators.createTodoSuccess(todo));
   } catch (error) {
@@ -24,5 +23,21 @@ export function * getTodosSaga (action) {
     yield put(TodoActionCreators.getTodoSuccess({ todos }));
   } catch (error) {
     yield put(TodoActionCreators.getTodoError({ error }));
+  }
+}
+
+export function * deleteTodoSaga (action) {
+  try {
+    const {
+      payload: { id },
+    } = action;
+
+    const {
+      data: { data: todoId },
+    } = yield API.deleteTodo({ todoId: id });
+
+    yield put(TodoActionCreators.deleteTodoSuccess(todoId));
+  } catch (error) {
+    yield put(TodoActionCreators.deleteTodoError(error));
   }
 }

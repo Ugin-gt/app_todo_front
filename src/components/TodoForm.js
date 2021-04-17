@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 
 const TodoForm = props => {
   const { createTodoAction } = props;
+  const values = {
+    body: '',
+    deadline: '',
+    isDone: false,
+  };
 
   const onSubmit = (values, formikBag) => {
     createTodoAction(values);
@@ -11,15 +16,10 @@ const TodoForm = props => {
   };
 
   return (
-    <Formik
-      initialValues={{
-        body: '',
-        isDone: false,
-      }}
-      onSubmit={onSubmit}
-    >
+    <Formik initialValues={values} onSubmit={onSubmit}>
       <Form>
         <Field name='body' />
+        <Field name='deadline' type='date' />
         <button type='submit'>Create ToDo</button>
         <button type='reset'>Reset ToDo</button>
       </Form>

@@ -44,8 +44,8 @@ function userReducer (state = initialState, action) {
       };
     }
     case ACTION_TYPES.CREATE_USER_SUCCESS: {
-      const { values: user } = action;
       const { users } = state;
+      const { values: user } = action;
       return {
         ...state,
         isFetching: false,
