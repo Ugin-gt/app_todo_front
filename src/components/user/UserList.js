@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getUserRequest } from '../actions/userCreators';
+import { getUserRequest } from '../../actions/userCreators';
 
 const UserList = props => {
   const { users, isFetching, error, getUsers } = props;
@@ -28,7 +28,7 @@ const UserList = props => {
 
 const mapStateToProps = ({ user }) => user;
 const mapDispatchToProps = dispatch => ({
-  getUsers: ({ limit, offset } = {}) =>
+  getUsers: ({ offset, limit } = {}) =>
     dispatch(getUserRequest({ offset, limit })),
 });
 

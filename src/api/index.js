@@ -6,10 +6,10 @@ const httpClient = axios.create({
   baseURL: `${BASE_URL}/api`,
 });
 
-export const createTodo = ({ userId = 1, ...todo } = {}) =>
+export const createTodo = ({ userId = 122, ...todo } = {}) =>
   httpClient.post(`/todos/users/${userId}`, todo);
 
-export const getTodos = ({ userId = 7, page = 1, limit = 5 }) =>
+export const getTodos = ({ userId = 7, page = 0, limit = 7 }) =>
   httpClient.get(`/todos/users/${userId}?${QS.stringify({ page, limit })}`);
 
 export const deleteTodo = ({ todoId } = {}) =>

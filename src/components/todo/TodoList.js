@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getTodoRequest } from '../actions/todoCreators';
+import { getTodoRequest } from '../../actions/todoCreators';
 
 const TodoList = props => {
   const { todos, isFetching, error, getTodos } = props;
 
-  const getMore = () => getTodos({ offset: todos.length });
+  const getMore = () => getTodos({ page: todos.length });
 
   useEffect(() => {
     getMore();
@@ -13,7 +13,7 @@ const TodoList = props => {
 
   return (
     <section>
-      <h1>ToDo LIST</h1>
+      <h1>ToDo List</h1>
       {isFetching && 'LOADING...'}
       {error && JSON.stringify(error)}
       <div>

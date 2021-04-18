@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
-import * as UserActionCreators from '../actions/userCreators';
+import * as UserActionCreators from '../../actions/userCreators';
 
 const UserForm = props => {
   const { createUserAction } = props;
